@@ -1,0 +1,8 @@
+{
+  "hurriedness.configuration.forceDisableBlockDestruction": "强制关闭方块破坏",
+  "hurriedness.configuration.section.hurriedness.common.toml": "急 配置",
+  "hurriedness.configuration.section.hurriedness.common.toml.title": "急 配置",
+  "hurriedness.configuration.title": "急 配置",
+  "item.hurriedness.alien_hand_hurry": "你已急哭",
+  "item.hurriedness.alien_hand_not_hurry": "你没急吧"
+}
