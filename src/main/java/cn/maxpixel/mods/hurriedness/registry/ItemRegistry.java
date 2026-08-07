@@ -12,8 +12,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ItemRegistry {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(HurriednessMod.MODID);
 
-//    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", BlockRegistry.EXAMPLE_BLOCK);
+    public static final DeferredItem<BlockItem> HURRIED_ANCHOR = ITEMS.registerSimpleBlockItem(BlockRegistry.HURRIED_ANCHOR);
 
     public static final DeferredItem<AlienHandItem> ALIEN_HAND_HURRY = ITEMS.registerItem("alien_hand_hurry", AlienHandItem::new);
     public static final DeferredItem<InvertedAlienHandItem> ALIEN_HAND_NOT_HURRY = ITEMS.registerItem("alien_hand_not_hurry", InvertedAlienHandItem::new);
+    public static final DeferredItem<Item> HURRIED_EGG = ITEMS.registerItem("hurried_egg", Item::new);
 }

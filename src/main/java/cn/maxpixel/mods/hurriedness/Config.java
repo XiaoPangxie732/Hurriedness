@@ -17,6 +17,12 @@ public class Config {
     public static final ModConfigSpec.BooleanValue FORCE_DISABLE_BLOCK_DESTRUCTION = BUILDER
             .comment("Disable block destruction of explosions created by this mod, disregarding the mobGriefing game rule")
             .define("forceDisableBlockDestruction", false);
+
+    public static final String KEY_ENABLE_HURRIEDNESS_VALUE_DEBUG_RENDERER = I18nKey.config("enableHurriednessValueDebugRenderer");
+    public static final String KEY_ENABLE_HURRIEDNESS_VALUE_DEBUG_RENDERER_TOOLTIP = I18nKey.config("enableHurriednessValueDebugRenderer.tooltip");
+    public static final ModConfigSpec.BooleanValue ENABLE_HURRIEDNESS_VALUE_DEBUG_RENDERER = BUILDER
+            .comment("Enable the hurriedness value debug renderer")
+            .define("enableHurriednessValueDebugRenderer", false);
 //    public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
 //            .comment("Whether to log the dirt block on common setup")
 //            .define("logDirtBlock", true);

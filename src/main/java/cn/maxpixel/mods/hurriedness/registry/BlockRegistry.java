@@ -7,7 +7,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class BlockRegistry {
-//    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HurriednessMod.MODID);
-//
-//    public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", p -> p.mapColor(MapColor.STONE));
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HurriednessMod.MODID);
+
+    public static final DeferredBlock<Block> HURRIED_ANCHOR = BLOCKS.registerSimpleBlock("hurried_anchor");
 }

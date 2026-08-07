@@ -24,6 +24,7 @@ public class CreativeTabRegistry {
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(ItemRegistry.ALIEN_HAND_HURRY);
             event.accept(ItemRegistry.ALIEN_HAND_NOT_HURRY);
+//            event.accept(ItemRegistry.HURRIED_ANCHOR);
         }
     }
 }

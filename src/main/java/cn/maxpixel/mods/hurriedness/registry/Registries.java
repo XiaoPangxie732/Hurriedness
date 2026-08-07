@@ -11,9 +11,10 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 @EventBusSubscriber(modid = HurriednessMod.MODID)
 public class Registries {
     public static void register(IEventBus modBus) {
-//        BlockRegistry.BLOCKS.register(modBus);
+        BlockRegistry.BLOCKS.register(modBus);
         ItemRegistry.ITEMS.register(modBus);
 //        CreativeTabRegistry.CREATIVE_MODE_TABS.register(modBus);
+        DataAttachmentRegistry.ATTACHMENT_TYPES.register(modBus);
     }
 
     @SubscribeEvent
