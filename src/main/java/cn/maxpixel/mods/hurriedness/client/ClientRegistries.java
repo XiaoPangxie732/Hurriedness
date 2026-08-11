@@ -6,6 +6,7 @@ import cn.maxpixel.mods.hurriedness.client.renderer.debug.HurriednessValueDebugR
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
 import net.neoforged.neoforge.client.event.RegisterDebugRenderersEvent;
 
 @EventBusSubscriber(modid = HurriednessMod.MODID, value = Dist.CLIENT)
@@ -15,5 +16,14 @@ public class ClientRegistries {
          if (Config.ENABLE_HURRIEDNESS_VALUE_DEBUG_RENDERER.getAsBoolean()) {
              event.register(HurriednessValueDebugRenderer::new);
          }
+    }
+
+    private static boolean lastHurriednessValueDebugRendererEnabled;
+    @SubscribeEvent
+    public static void onExtractLevelRenderState(ExtractLevelRenderStateEvent event) {
+        if (Config.ENABLE_HURRIEDNESS_VALUE_DEBUG_RENDERER.getAsBoolean() != lastHurriednessValueDebugRendererEnabled) {
+            lastHurriednessValueDebugRendererEnabled = Config.ENABLE_HURRIEDNESS_VALUE_DEBUG_RENDERER.getAsBoolean();
+            event.getLevelRenderer().debugRenderer.refreshRendererList();
+        }
     }
 }

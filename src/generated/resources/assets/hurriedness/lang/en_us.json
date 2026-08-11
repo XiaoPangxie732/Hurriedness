@@ -1,8 +1,13 @@
 {
+  "block.hurriedness.hurried_anchor": "Hurried anchor",
+  "hurriedness.configuration.enableHurriednessValueDebugRenderer": "Enable hurriedness value debug renderer",
+  "hurriedness.configuration.enableHurriednessValueDebugRenderer.tooltip": "Enable hurriedness value debug renderer, which will show the hurriedness value of nearby blocks & entities",
   "hurriedness.configuration.forceDisableBlockDestruction": "Force Disable Block Destruction",
+  "hurriedness.configuration.forceDisableBlockDestruction.tooltip": "Disable block destruction of explosions created by this mod, disregarding the mob_griefing game rule",
   "hurriedness.configuration.section.hurriedness.common.toml": "Hurriedness Configs",
   "hurriedness.configuration.section.hurriedness.common.toml.title": "Hurriedness Configs",
   "hurriedness.configuration.title": "Hurriedness Configs",
   "item.hurriedness.alien_hand_hurry": "Alien hand",
-  "item.hurriedness.alien_hand_not_hurry": "Inverted alien hand"
+  "item.hurriedness.alien_hand_not_hurry": "Inverted alien hand",
+  "item.hurriedness.hurried_egg": "Hurried egg"
 }

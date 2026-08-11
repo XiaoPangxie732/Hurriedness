@@ -8,7 +8,8 @@ import java.util.Arrays;
 
 public class HurriednessValue {
     public static final int MAX_VALUE = 100;
-    private static final int SECTION_SIZE = SectionPos.SECTION_SIZE * SectionPos.SECTION_SIZE * SectionPos.SECTION_SIZE;
+    public static final int SECTION_SIZE = SectionPos.SECTION_SIZE * SectionPos.SECTION_SIZE * SectionPos.SECTION_SIZE;
+    private static final byte[] EMPTY = new byte[HurriednessValue.SECTION_SIZE];
 
     private final short sectionCount;
     private final byte[][] sections;
@@ -20,6 +21,7 @@ public class HurriednessValue {
     public HurriednessValue(short sectionCount) {
         this.sectionCount = sectionCount;
         this.sections = new byte[sectionCount][];
+        Arrays.fill(sections, EMPTY);
         this.cnts = new short[sectionCount];
         this.needSync = new boolean[sectionCount];
     }
@@ -39,14 +41,12 @@ public class HurriednessValue {
     }
 
     public byte getValue(int sectionIndex, int sectionX, int sectionY, int sectionZ) {
-        byte[] section = sections[sectionIndex];
-        if (section == null) return 0;
-        return section[(sectionY * SectionPos.SECTION_SIZE + sectionX) * SectionPos.SECTION_SIZE + sectionZ];// Y X Z
+        return sections[sectionIndex][(sectionY * SectionPos.SECTION_SIZE + sectionX) * SectionPos.SECTION_SIZE + sectionZ];// Y X Z
     }
 
     public void setValue(int sectionIndex, int sectionX, int sectionY, int sectionZ, byte value) {
         if (value < 0) throw new IllegalArgumentException("Hurriedness value should be non-negative");
-        if (sections[sectionIndex] == null) sections[sectionIndex] = new byte[SECTION_SIZE];
+        if (sections[sectionIndex] == EMPTY) sections[sectionIndex] = new byte[SECTION_SIZE];
         byte[] section = sections[sectionIndex];
         int i = (sectionY * SectionPos.SECTION_SIZE + sectionX) * SectionPos.SECTION_SIZE + sectionZ;
         if (section[i] == 0) {
@@ -61,7 +61,7 @@ public class HurriednessValue {
             if (value == 0) {
                 cntTotal--;
                 if (--cnts[sectionIndex] == 0) {
-                    sections[sectionIndex] = null;
+                    sections[sectionIndex] = EMPTY;
                 }
             }
             section[i] = value;

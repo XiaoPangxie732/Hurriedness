@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.gamerules.GameRules;
@@ -46,6 +47,29 @@ public class HurriednessValueHelper {
                 SectionPos.sectionRelative(pos.getZ()),
                 (byte) value
         );
+    }
+
+    public static void increase(ServerLevel level, Entity entity) {
+        var value = entity.getData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE).intValue();
+        value += 1 + level.getRandom().nextInt(10);
+        if (value > HurriednessValue.MAX_VALUE) {
+            // generate explosions
+            var pos = entity.position();
+            boolean destructive = !Config.FORCE_DISABLE_BLOCK_DESTRUCTION.getAsBoolean() &&
+                    level.getGameRules().get(GameRules.MOB_GRIEFING);
+            level.explode(null, pos.x, pos.y, pos.z, 5.f, destructive,
+                    destructive ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
+            entity.removeData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE);
+            return;
+        }
+        entity.setData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE, (byte) value);
+    }
+
+    public static void decrease(ServerLevel level, Entity entity) {
+        var value = entity.getData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE).intValue();
+        value -= 1 + level.getRandom().nextInt(10);
+        if (value <= 0) entity.removeData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE);
+        else entity.setData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE, (byte) value);
     }
 
     public static void decrease(ServerLevel level, ChunkAccess chunk, BlockPos pos) {

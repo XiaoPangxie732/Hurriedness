@@ -1,8 +1,13 @@
 {
+  "block.hurriedness.hurried_anchor": "急锚",
+  "hurriedness.configuration.enableHurriednessValueDebugRenderer": "开启急值调试渲染器",
+  "hurriedness.configuration.enableHurriednessValueDebugRenderer.tooltip": "是否开启急值调试渲染器，开启后将显示附近方块与实体的急值",
   "hurriedness.configuration.forceDisableBlockDestruction": "强制关闭方块破坏",
+  "hurriedness.configuration.forceDisableBlockDestruction.tooltip": "关闭本模组所产生的爆炸的方块破坏效果，无论mob_griefing游戏规则是否为真",
   "hurriedness.configuration.section.hurriedness.common.toml": "急 配置",
   "hurriedness.configuration.section.hurriedness.common.toml.title": "急 配置",
   "hurriedness.configuration.title": "急 配置",
   "item.hurriedness.alien_hand_hurry": "你已急哭",
-  "item.hurriedness.alien_hand_not_hurry": "你没急吧"
+  "item.hurriedness.alien_hand_not_hurry": "你没急吧",
+  "item.hurriedness.hurried_egg": "急蛋"
 }
