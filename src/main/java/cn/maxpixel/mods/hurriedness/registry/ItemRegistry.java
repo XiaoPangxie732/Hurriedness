@@ -2,6 +2,7 @@ package cn.maxpixel.mods.hurriedness.registry;
 
 import cn.maxpixel.mods.hurriedness.HurriednessMod;
 import cn.maxpixel.mods.hurriedness.item.AlienHandItem;
+import cn.maxpixel.mods.hurriedness.item.HurriedEggItem;
 import cn.maxpixel.mods.hurriedness.item.InvertedAlienHandItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -16,5 +17,5 @@ public class ItemRegistry {
 
     public static final DeferredItem<AlienHandItem> ALIEN_HAND_HURRY = ITEMS.registerItem("alien_hand_hurry", AlienHandItem::new);
     public static final DeferredItem<InvertedAlienHandItem> ALIEN_HAND_NOT_HURRY = ITEMS.registerItem("alien_hand_not_hurry", InvertedAlienHandItem::new);
-    public static final DeferredItem<Item> HURRIED_EGG = ITEMS.registerItem("hurried_egg", Item::new);
+    public static final DeferredItem<HurriedEggItem> HURRIED_EGG = ITEMS.registerItem("hurried_egg", HurriedEggItem::new);
 }

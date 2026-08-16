@@ -15,6 +15,8 @@ public class EntryPoint {
         event.createProvider(AmericanEnglishLanguageProvider::new);
         event.createProvider(SimplifiedChineseLanguageProvider::new);
 
-        event.createProvider(ItemModels::new);
+        event.createProvider(BlockAndItemModels::new);
+
+        event.createProvider(ModEntityTypeTagsProvider::new);
     }
 }

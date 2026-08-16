@@ -2,6 +2,7 @@ package cn.maxpixel.mods.hurriedness.item;
 
 import cn.maxpixel.mods.hurriedness.hvalue.HurriednessValueHelper;
 import cn.maxpixel.mods.hurriedness.registry.ItemRegistry;
+import cn.maxpixel.mods.hurriedness.util.HurriednessUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.ChatType;
@@ -71,8 +72,7 @@ public class AlienHandItem extends Item {
             if (p instanceof ServerPlayer sp) {
                 p.addEffect(new MobEffectInstance(MobEffects.SPEED, 100, 1, false, false, false), source);
                 p.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 100, 1, false, false, false), source);
-                sp.sendChatMessage(OutgoingChatMessage.create(PlayerChatMessage.system("你已急哭")), false,
-                        ChatType.bind(ChatType.MSG_COMMAND_OUTGOING, source).withTargetName(sp.getDisplayName()));
+                HurriednessUtil.sendMessage1(sp, source);
                 HurriednessValueHelper.increase(sp.level(), sp);
             }
             return InteractionResult.SUCCESS;
@@ -131,11 +131,10 @@ public class AlienHandItem extends Item {
     public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
         if (entity instanceof ServerPlayer p) {
             p.addEffect(new MobEffectInstance(MobEffects.SPEED, 100, 1, false, false, false), p);
-            p.sendChatMessage(OutgoingChatMessage.create(PlayerChatMessage.system("你已急哭")), false,
-                    ChatType.bind(ChatType.MSG_COMMAND_OUTGOING, p).withTargetName(p.getDisplayName()));
+            HurriednessUtil.sendMessage1(p);
             HurriednessValueHelper.increase(p.level(), p);
-            p.stopUsingItem();
         }
+        entity.stopUsingItem();
         return itemStack;
     }
 

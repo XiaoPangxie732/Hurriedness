@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hurriedness:block/hurried_anchor"
+    }
+  }
+}

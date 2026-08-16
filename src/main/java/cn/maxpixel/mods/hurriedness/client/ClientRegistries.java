@@ -3,9 +3,12 @@ package cn.maxpixel.mods.hurriedness.client;
 import cn.maxpixel.mods.hurriedness.Config;
 import cn.maxpixel.mods.hurriedness.HurriednessMod;
 import cn.maxpixel.mods.hurriedness.client.renderer.debug.HurriednessValueDebugRenderer;
+import cn.maxpixel.mods.hurriedness.registry.EntityTypeRegistry;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
 import net.neoforged.neoforge.client.event.RegisterDebugRenderersEvent;
 
@@ -25,5 +28,10 @@ public class ClientRegistries {
             lastHurriednessValueDebugRendererEnabled = Config.ENABLE_HURRIEDNESS_VALUE_DEBUG_RENDERER.getAsBoolean();
             event.getLevelRenderer().debugRenderer.refreshRendererList();
         }
+    }
+
+    @SubscribeEvent
+    public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(EntityTypeRegistry.HURRIED_EGG.get(), ThrownItemRenderer::new);
     }
 }
