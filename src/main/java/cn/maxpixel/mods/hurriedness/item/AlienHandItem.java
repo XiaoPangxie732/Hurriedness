@@ -4,10 +4,6 @@ import cn.maxpixel.mods.hurriedness.hvalue.HurriednessValueHelper;
 import cn.maxpixel.mods.hurriedness.registry.ItemRegistry;
 import cn.maxpixel.mods.hurriedness.util.HurriednessUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.OutgoingChatMessage;
-import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -31,39 +27,7 @@ public class AlienHandItem extends Item {
 
     @Override
     public @NonNull InteractionResult useOn(UseOnContext context) {
-        Level level = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        BlockPos relative = pos.relative(context.getClickedFace());
-        var chunk = level.getChunk(pos);
-        ItemStack boneMealStack = new ItemStack(Items.BONE_MEAL, 1);
-        if (BoneMealItem.applyBonemeal(boneMealStack, level, pos, context.getPlayer())) {
-            if (!level.isClientSide()) {
-                boneMealStack.causeUseVibration(context.getPlayer(), GameEvent.ITEM_INTERACT_FINISH);
-                level.levelEvent(1505, pos, 15);
-                HurriednessValueHelper.increase((ServerLevel) level, chunk, pos);
-                return InteractionResult.SUCCESS_SERVER;
-            } else return InteractionResult.PASS;
-        } else {
-            BlockState clickedState = level.getBlockState(pos);
-            boolean solidBlockFace = clickedState.isFaceSturdy(level, pos, context.getClickedFace());
-            if (solidBlockFace && BoneMealItem.growWaterPlant(boneMealStack, level, relative, context.getClickedFace())) {
-                if (!level.isClientSide()) {
-                    boneMealStack.causeUseVibration(context.getPlayer(), GameEvent.ITEM_INTERACT_FINISH);
-                    level.levelEvent(1505, relative, 15);
-                    HurriednessValueHelper.increase((ServerLevel) level, chunk, pos);
-                }
-                return InteractionResult.SUCCESS;
-            } else {
-                if (clickedState.isRandomlyTicking()) {
-                    if (level instanceof ServerLevel serverLevel) {
-                        clickedState.randomTick(serverLevel, pos, level.getRandom());
-                        HurriednessValueHelper.increase(serverLevel, chunk, pos);
-                    }
-                    return InteractionResult.SUCCESS;
-                }
-                return InteractionResult.PASS;
-            }
-        }
+        return HurriednessUtil.hurryBlock(context) ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
     @Override
@@ -89,38 +53,7 @@ public class AlienHandItem extends Item {
     @Override
     public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
         if (player.isShiftKeyDown()) {
-            var playerPos = player.blockPosition();
-            for (BlockPos pos : BlockPos.betweenClosed(playerPos.offset(-5, -2, -5), playerPos.offset(5, 2, 5))) {
-                var chunk = level.getChunk(pos);
-                ItemStack boneMealStack = new ItemStack(Items.BONE_MEAL, 1);
-                if (BoneMealItem.applyBonemeal(boneMealStack, level, pos, player)) {
-                    if (!level.isClientSide()) {
-                        boneMealStack.causeUseVibration(player, GameEvent.ITEM_INTERACT_FINISH);
-                        level.levelEvent(1505, pos, 15);
-                        HurriednessValueHelper.increase((ServerLevel) level, chunk, pos);
-                    }
-                } else {
-                    BlockState clickedState = level.getBlockState(pos);
-                    boolean success = false;
-                    for (var direction : Direction.values()) {
-                        boolean solidBlockFace = clickedState.isFaceSturdy(level, pos, direction);
-                        BlockPos relative = pos.relative(direction);
-                        if (solidBlockFace && BoneMealItem.growWaterPlant(boneMealStack, level, relative, direction)) {
-                            if (!level.isClientSide()) {
-                                boneMealStack.causeUseVibration(player, GameEvent.ITEM_INTERACT_FINISH);
-                                level.levelEvent(1505, relative, 15);
-                                HurriednessValueHelper.increase((ServerLevel) level, chunk, pos);
-                            }
-                            success = true;
-                            break;
-                        }
-                    }
-                    if (!success && clickedState.isRandomlyTicking() && level instanceof ServerLevel serverLevel) {
-                        clickedState.randomTick(serverLevel, pos, level.getRandom());
-                        HurriednessValueHelper.increase(serverLevel, chunk, pos);
-                    }
-                }
-            }
+            HurriednessUtil.rangeHurryBlocks(player.blockPosition(), level, player);
             return InteractionResult.SUCCESS;
         }
         player.startUsingItem(hand);

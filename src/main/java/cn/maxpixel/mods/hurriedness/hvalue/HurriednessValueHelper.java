@@ -17,7 +17,7 @@ import java.util.Random;
 public class HurriednessValueHelper {
     public static void increase(ServerLevel level, ChunkAccess chunk, BlockPos pos) {
         var hv = chunk.getData(DataAttachmentRegistry.HURRIEDNESS_VALUE);
-        int value = getValue(hv, chunk, pos);;
+        int value = getValue(hv, chunk, pos);
         value += 1 + level.getRandom().nextInt(10);
         if (value > HurriednessValue.MAX_VALUE) {
             generateExplosions(level, pos.getCenter());
@@ -49,6 +49,7 @@ public class HurriednessValueHelper {
     }
 
     public static void decrease(ServerLevel level, Entity entity) {
+        if (!entity.hasData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE)) return;
         var value = entity.getData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE).intValue();
         value -= 1 + level.getRandom().nextInt(10);
         if (value <= 0) entity.removeData(DataAttachmentRegistry.ENTITY_HURRIEDNESS_VALUE);
@@ -106,7 +107,7 @@ public class HurriednessValueHelper {
                 destructive ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
     }
 
-    private static int getValue(HurriednessValue hv, ChunkAccess chunk, BlockPos pos) {
+    public static int getValue(HurriednessValue hv, ChunkAccess chunk, BlockPos pos) {
         return hv.getValue(
                 chunk.getSectionIndex(pos.getY()),
                 SectionPos.sectionRelative(pos.getX()),

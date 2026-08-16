@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 public class EntityTypeRegistry {
-    public static final DeferredRegister.Entities ENTITY_TYPES = DeferredRegister.createEntities(HurriednessMod.MODID);
+    static final DeferredRegister.Entities ENTITY_TYPES = DeferredRegister.createEntities(HurriednessMod.MODID);
 
     public static final Supplier<EntityType<ThrownHurriedEgg>> HURRIED_EGG = ENTITY_TYPES.registerEntityType(
             "hurried_egg", ThrownHurriedEgg::new, MobCategory.MISC,

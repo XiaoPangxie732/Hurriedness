@@ -10,4 +10,8 @@ public class I18nKey {
     public static String config(String key) {
         return HurriednessMod.MODID + ".configuration." + key;
     }
+
+    public static String container(String key) {
+        return HurriednessMod.MODID + ".container." + key;
+    }
 }

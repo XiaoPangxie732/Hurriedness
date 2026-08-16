@@ -13,6 +13,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 public class Registries {
     public static void register(IEventBus modBus) {
         BlockRegistry.BLOCKS.register(modBus);
+        BlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modBus);
         ItemRegistry.ITEMS.register(modBus);
         EntityTypeRegistry.ENTITY_TYPES.register(modBus);
 //        CreativeTabRegistry.CREATIVE_MODE_TABS.register(modBus);

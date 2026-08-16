@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ItemRegistry {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(HurriednessMod.MODID);
+    static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(HurriednessMod.MODID);
 
     public static final DeferredItem<BlockItem> HURRIED_ANCHOR = ITEMS.registerSimpleBlockItem(BlockRegistry.HURRIED_ANCHOR);
 

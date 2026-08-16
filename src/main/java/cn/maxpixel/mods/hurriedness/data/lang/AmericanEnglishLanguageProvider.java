@@ -1,6 +1,7 @@
 package cn.maxpixel.mods.hurriedness.data.lang;
 
 import cn.maxpixel.mods.hurriedness.Config;
+import cn.maxpixel.mods.hurriedness.block.entity.HurriedAnchorBlockEntity;
 import cn.maxpixel.mods.hurriedness.registry.BlockRegistry;
 import cn.maxpixel.mods.hurriedness.registry.ItemRegistry;
 import cn.maxpixel.mods.hurriedness.util.I18nKey;
@@ -23,6 +24,7 @@ public class AmericanEnglishLanguageProvider extends CustomLanguageProvider {
 //        add(Config.KEY_EXHIBITION_MODE, "Exhibition Mode");
 
         addBlock(BlockRegistry.HURRIED_ANCHOR, "Hurried anchor");
+        add(HurriedAnchorBlockEntity.DEFAULT_NAME_KEY, "Hurried anchor");
 
         addItem(ItemRegistry.ALIEN_HAND_HURRY, "Alien hand");
         addItem(ItemRegistry.ALIEN_HAND_NOT_HURRY, "Inverted alien hand");

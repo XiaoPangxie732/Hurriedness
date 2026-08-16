@@ -12,7 +12,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import java.util.function.Supplier;
 
 public class DataAttachmentRegistry {
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, HurriednessMod.MODID);
+    static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, HurriednessMod.MODID);
 
     public static final Supplier<AttachmentType<HurriednessValue>> HURRIEDNESS_VALUE = ATTACHMENT_TYPES.register(
             "hurriedness_value", () -> AttachmentType.builder(HurriednessValue::of)

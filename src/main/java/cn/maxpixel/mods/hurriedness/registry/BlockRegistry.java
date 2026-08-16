@@ -1,13 +1,21 @@
 package cn.maxpixel.mods.hurriedness.registry;
 
 import cn.maxpixel.mods.hurriedness.HurriednessMod;
+import cn.maxpixel.mods.hurriedness.block.HurriedAnchorBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class BlockRegistry {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HurriednessMod.MODID);
+import java.util.function.Supplier;
 
-    public static final DeferredBlock<Block> HURRIED_ANCHOR = BLOCKS.registerSimpleBlock("hurried_anchor");
+public class BlockRegistry {
+    static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HurriednessMod.MODID);
+
+    public static final DeferredBlock<HurriedAnchorBlock> HURRIED_ANCHOR = BLOCKS.registerBlock(HurriedAnchorBlock.ID,
+            HurriedAnchorBlock::new, props -> props.mapColor(MapColor.COLOR_RED)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .strength(2.5F));
 }

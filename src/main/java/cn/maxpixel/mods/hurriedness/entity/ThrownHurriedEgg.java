@@ -1,18 +1,21 @@
 package cn.maxpixel.mods.hurriedness.entity;
 
+import cn.maxpixel.mods.hurriedness.hvalue.HurriednessValueHelper;
 import cn.maxpixel.mods.hurriedness.registry.EntityTypeRegistry;
 import cn.maxpixel.mods.hurriedness.registry.ItemRegistry;
 import cn.maxpixel.mods.hurriedness.util.HurriednessUtil;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.chicken.Chicken;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -63,15 +66,27 @@ public class ThrownHurriedEgg extends ThrowableItemProjectile {
     protected void onHitEntity(@NonNull EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
         var e = hitResult.getEntity();
-        e.hurt(damageSources().thrown(this, getOwner()), 0.0F);
-        if (e instanceof ServerPlayer sp && getOwner() != null) {
-            HurriednessUtil.sendMessage1(sp, getOwner());
+        var owner = getOwner();
+        e.hurt(damageSources().thrown(this, owner), 0.0F);
+        if (e instanceof ServerPlayer sp) {
+            sp.addEffect(new MobEffectInstance(MobEffects.SPEED, 100, 1, false, false, false), owner);
+            if (sp != owner) sp.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 100, 1, false, false, false), owner);
+            if (owner != null) HurriednessUtil.sendMessage1(sp, owner);
+            HurriednessValueHelper.increase(sp.level(), sp);
+        } else if (e instanceof Chicken c) {
+            if (c.level() instanceof ServerLevel level) {
+                c.spawnAtLocation(level, ItemRegistry.HURRIED_EGG);
+                HurriednessValueHelper.increase(level, c);
+            }
         }
     }
 
     @Override
     protected void onHitBlock(@NonNull BlockHitResult hitResult) {
         super.onHitBlock(hitResult);
+        if (level() instanceof ServerLevel level) {
+            HurriednessUtil.rangeHurryBlocks(hitResult.getBlockPos(), level, getOwner());
+        }
     }
 
     @Override
