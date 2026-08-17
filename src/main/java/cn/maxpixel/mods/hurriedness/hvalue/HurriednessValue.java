@@ -41,11 +41,21 @@ public class HurriednessValue {
     }
 
     public byte getValue(int sectionIndex, int sectionX, int sectionY, int sectionZ) {
+        if (sectionIndex < 0 || sectionIndex >= sectionCount ||
+                sectionX < 0 || sectionX >= SectionPos.SECTION_SIZE ||
+                sectionY < 0 || sectionY >= SectionPos.SECTION_SIZE ||
+                sectionZ < 0 || sectionZ >= SectionPos.SECTION_SIZE) return 0;
         return sections[sectionIndex][(sectionY * SectionPos.SECTION_SIZE + sectionX) * SectionPos.SECTION_SIZE + sectionZ];// Y X Z
     }
 
     public void setValue(int sectionIndex, int sectionX, int sectionY, int sectionZ, byte value) {
         if (value < 0) throw new IllegalArgumentException("Hurriedness value should be non-negative");
+        if (sectionIndex < 0 || sectionIndex >= sectionCount ||
+                sectionX < 0 || sectionX >= SectionPos.SECTION_SIZE ||
+                sectionY < 0 || sectionY >= SectionPos.SECTION_SIZE ||
+                sectionZ < 0 || sectionZ >= SectionPos.SECTION_SIZE)
+            throw new IndexOutOfBoundsException("Hurriedness value index out of bounds. sectionIndex=" + sectionIndex +
+                    ", sectionX=" + sectionX + ", sectionY=" + sectionY + ", sectionZ=" + sectionZ + ", sectionCount=" + sectionCount);
         if (sections[sectionIndex] == EMPTY) sections[sectionIndex] = new byte[SECTION_SIZE];
         byte[] section = sections[sectionIndex];
         int i = (sectionY * SectionPos.SECTION_SIZE + sectionX) * SectionPos.SECTION_SIZE + sectionZ;

@@ -1,6 +1,7 @@
 package cn.maxpixel.mods.hurriedness.item;
 
 import cn.maxpixel.mods.hurriedness.hvalue.HurriednessValueHelper;
+import cn.maxpixel.mods.hurriedness.util.HurriednessUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.OutgoingChatMessage;
@@ -37,8 +38,7 @@ public class InvertedAlienHandItem extends Item {
     @Override
     public @NonNull InteractionResult interactLivingEntity(@NonNull ItemStack itemStack, @NonNull Player source, @NonNull LivingEntity target, @NonNull InteractionHand type) {
         if (target instanceof ServerPlayer sp) {
-            sp.sendChatMessage(OutgoingChatMessage.create(PlayerChatMessage.system("你没急吧")), false,
-                    ChatType.bind(ChatType.MSG_COMMAND_OUTGOING, source).withTargetName(sp.getDisplayName()));
+            HurriednessUtil.sendMessage2(sp, source);
         }
         if (target.level() instanceof ServerLevel level) {
             if (level.getRandom().nextInt(10) != 9) {
@@ -69,8 +69,7 @@ public class InvertedAlienHandItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity entity) {
         if (entity instanceof ServerPlayer p) {
-            p.sendChatMessage(OutgoingChatMessage.create(PlayerChatMessage.system("你没急吧")), false,
-                    ChatType.bind(ChatType.MSG_COMMAND_OUTGOING, p).withTargetName(p.getDisplayName()));
+            HurriednessUtil.sendMessage2(p, p);
         }
         entity.stopUsingItem();
         if (level instanceof ServerLevel serverLevel) {

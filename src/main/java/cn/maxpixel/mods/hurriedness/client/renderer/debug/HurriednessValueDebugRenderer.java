@@ -1,5 +1,6 @@
 package cn.maxpixel.mods.hurriedness.client.renderer.debug;
 
+import cn.maxpixel.mods.hurriedness.hvalue.HurriednessValueHelper;
 import cn.maxpixel.mods.hurriedness.registry.DataAttachmentRegistry;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
@@ -33,12 +34,7 @@ public class HurriednessValueDebugRenderer implements DebugRenderer.SimpleDebugR
             var chunk = level.getChunk(blockPos);
             if (!chunk.hasData(DataAttachmentRegistry.HURRIEDNESS_VALUE)) continue;
             var hv = chunk.getData(DataAttachmentRegistry.HURRIEDNESS_VALUE);
-            int value = hv.getValue(
-                    chunk.getSectionIndex(blockPos.getY()),
-                    SectionPos.sectionRelative(blockPos.getX()),
-                    SectionPos.sectionRelative(blockPos.getY()),
-                    SectionPos.sectionRelative(blockPos.getZ())
-            );
+            int value = HurriednessValueHelper.getValue(hv, chunk, blockPos);
             if (value != 0) {
                 Gizmos.billboardTextOverBlock(
                         String.valueOf(value), blockPos, 1, 0xFFFF1111, .32f

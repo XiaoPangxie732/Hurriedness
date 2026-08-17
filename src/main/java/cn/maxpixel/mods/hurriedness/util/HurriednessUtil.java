@@ -10,6 +10,7 @@ import net.minecraft.network.chat.OutgoingChatMessage;
 import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BoneMealItem;
@@ -25,13 +26,26 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class HurriednessUtil {
+    private static final OutgoingChatMessage MSG1 = OutgoingChatMessage.create(PlayerChatMessage.system("你已急哭"));
+    private static final OutgoingChatMessage MSG2 = OutgoingChatMessage.create(PlayerChatMessage.system("你没急吧"));
+
     public static void sendMessage1(@NonNull ServerPlayer target) {
         sendMessage1(target, target);
     }
 
     public static void sendMessage1(@NonNull ServerPlayer target, @NonNull Entity source) {
-        target.sendChatMessage(OutgoingChatMessage.create(PlayerChatMessage.system("你已急哭")), false,
-                ChatType.bind(ChatType.MSG_COMMAND_OUTGOING, source).withTargetName(target.getDisplayName()));
+        sendMessage(target, source, MSG1);
+    }
+
+    public static void sendMessage2(@NonNull ServerPlayer target, @NonNull Entity source) {
+        sendMessage(target, source, MSG2);
+    }
+
+    private static void sendMessage(@NonNull ServerPlayer target, @NonNull Entity source, OutgoingChatMessage msg) {
+        ChatType.Bound incomingChatType = ChatType.bind(ChatType.MSG_COMMAND_INCOMING, source);
+        ChatType.Bound outgoingChatType = ChatType.bind(ChatType.MSG_COMMAND_OUTGOING, source).withTargetName(target.getDisplayName());
+        if (source != target && source instanceof ServerPlayer sp) sp.sendChatMessage(msg, false, outgoingChatType);
+        target.sendChatMessage(msg, false, incomingChatType);
     }
 
     public static boolean rangeHurryBlocks(BlockPos blockPos, Level level, @Nullable Entity player) {
@@ -41,6 +55,7 @@ public class HurriednessUtil {
     public static boolean rangeHurryBlocks(BlockPos blockPos, Level level, @Nullable Entity user, boolean smart) {// Returns true if any succeeds
         boolean ret = false;
         for (BlockPos pos : BlockPos.betweenClosed(blockPos.offset(-5, -2, -5), blockPos.offset(5, 2, 5))) {
+            if (!level.isInsideBuildHeight(pos)) continue;
             ret |= hurryBlock(pos, level, user, null, smart);
         }
         return ret;
@@ -87,6 +102,7 @@ public class HurriednessUtil {
                                           BlockState clickedState, ItemStack boneMealStack, ChunkAccess chunk) {
         boolean solidBlockFace = clickedState.isFaceSturdy(l, pos, direction);
         BlockPos relative = pos.relative(direction);
+        if (!l.isInsideBuildHeight(relative)) return false;
         if (solidBlockFace && BoneMealItem.growWaterPlant(boneMealStack, l, relative, direction)) {
             if (l instanceof ServerLevel level) {
                 if (user != null) boneMealStack.causeUseVibration(user, GameEvent.ITEM_INTERACT_FINISH);

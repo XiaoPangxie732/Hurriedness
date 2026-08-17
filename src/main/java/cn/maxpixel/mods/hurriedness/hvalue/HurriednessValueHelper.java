@@ -16,6 +16,7 @@ import java.util.Random;
 
 public class HurriednessValueHelper {
     public static void increase(ServerLevel level, ChunkAccess chunk, BlockPos pos) {
+        if (!level.isInsideBuildHeight(pos)) return;
         var hv = chunk.getData(DataAttachmentRegistry.HURRIEDNESS_VALUE);
         int value = getValue(hv, chunk, pos);
         value += 1 + level.getRandom().nextInt(10);
@@ -40,6 +41,7 @@ public class HurriednessValueHelper {
     }
 
     public static void decrease(ServerLevel level, ChunkAccess chunk, BlockPos pos) {
+        if (!level.isInsideBuildHeight(pos)) return;
         if (!chunk.hasData(DataAttachmentRegistry.HURRIEDNESS_VALUE)) return;
         var hv = chunk.getData(DataAttachmentRegistry.HURRIEDNESS_VALUE);
         int value = getValue(hv, chunk, pos);
@@ -57,6 +59,7 @@ public class HurriednessValueHelper {
     }
 
     public static void timesTwo(ServerLevel level, ChunkAccess chunk, BlockPos pos) {// aka double
+        if (!level.isInsideBuildHeight(pos)) return;
         if (!chunk.hasData(DataAttachmentRegistry.HURRIEDNESS_VALUE)) return;
         var hv = chunk.getData(DataAttachmentRegistry.HURRIEDNESS_VALUE);
         int value = getValue(hv, chunk, pos);
