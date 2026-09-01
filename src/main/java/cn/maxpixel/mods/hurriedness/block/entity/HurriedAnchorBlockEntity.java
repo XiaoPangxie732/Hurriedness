@@ -24,9 +24,11 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 public class HurriedAnchorBlockEntity extends BaseContainerBlockEntity {
     public static final String DEFAULT_NAME_KEY = I18nKey.container(HurriedAnchorBlock.ID);
+    public static final String INFINITE_MATERIALS_KEY = "InfiniteMaterials";
     private static final Component DEFAULT_NAME = Component.translatable(DEFAULT_NAME_KEY);
     private NonNullList<ItemStack> items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
     private int cooldownTime = -1;
+    private boolean infiniteMaterials;
 
     public HurriedAnchorBlockEntity(BlockPos worldPosition, BlockState blockState) {
         super(BlockEntityRegistry.HURRIED_ANCHOR.get(), worldPosition, blockState);
@@ -36,6 +38,7 @@ public class HurriedAnchorBlockEntity extends BaseContainerBlockEntity {
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         ContainerHelper.saveAllItems(output, items);
+        if (infiniteMaterials) output.putBoolean(INFINITE_MATERIALS_KEY, true);
     }
 
     @Override
@@ -43,6 +46,7 @@ public class HurriedAnchorBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(input);
         items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(input, items);
+        infiniteMaterials = input.getBooleanOr(INFINITE_MATERIALS_KEY, false);
     }
 
     @Override
@@ -99,8 +103,10 @@ public class HurriedAnchorBlockEntity extends BaseContainerBlockEntity {
         }
         if (hurriedEggStack == null) return;
         if (HurriednessUtil.rangeHurryBlocks(pos, level, null, true)) {
-            hurriedEggStack.shrink(1);
-            be.setChanged();
+            if (!be.infiniteMaterials) {
+                hurriedEggStack.shrink(1);
+                be.setChanged();
+            }
         }
     }
 }
