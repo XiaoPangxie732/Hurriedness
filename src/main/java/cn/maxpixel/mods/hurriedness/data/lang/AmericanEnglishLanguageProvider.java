@@ -2,6 +2,7 @@ package cn.maxpixel.mods.hurriedness.data.lang;
 
 import cn.maxpixel.mods.hurriedness.Config;
 import cn.maxpixel.mods.hurriedness.block.entity.HurriedAnchorBlockEntity;
+import cn.maxpixel.mods.hurriedness.item.AlienHandItem;
 import cn.maxpixel.mods.hurriedness.registry.BlockRegistry;
 import cn.maxpixel.mods.hurriedness.registry.ItemRegistry;
 import cn.maxpixel.mods.hurriedness.util.I18nKey;
@@ -27,6 +28,8 @@ public class AmericanEnglishLanguageProvider extends CustomLanguageProvider {
         add(HurriedAnchorBlockEntity.DEFAULT_NAME_KEY, "Hurried anchor");
 
         addItem(ItemRegistry.ALIEN_HAND_HURRY, "Alien hand");
+        add(AlienHandItem.OUTSIDE_RANGE_KEY, "You are outside the usable range");
+
         addItem(ItemRegistry.ALIEN_HAND_NOT_HURRY, "Inverted alien hand");
         addItem(ItemRegistry.HURRIED_EGG, "Hurried egg");
     }

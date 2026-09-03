@@ -2,6 +2,7 @@ package cn.maxpixel.mods.hurriedness.data.lang;
 
 import cn.maxpixel.mods.hurriedness.Config;
 import cn.maxpixel.mods.hurriedness.block.entity.HurriedAnchorBlockEntity;
+import cn.maxpixel.mods.hurriedness.item.AlienHandItem;
 import cn.maxpixel.mods.hurriedness.registry.BlockRegistry;
 import cn.maxpixel.mods.hurriedness.registry.ItemRegistry;
 import cn.maxpixel.mods.hurriedness.util.I18nKey;
@@ -27,6 +28,8 @@ public class SimplifiedChineseLanguageProvider extends CustomLanguageProvider {
         add(HurriedAnchorBlockEntity.DEFAULT_NAME_KEY, "急锚");
 
         addItem(ItemRegistry.ALIEN_HAND_HURRY, "你已急哭");
+        add(AlienHandItem.OUTSIDE_RANGE_KEY, "你已超出限制范围，仅在限制范围内可以对方块急");
+
         addItem(ItemRegistry.ALIEN_HAND_NOT_HURRY, "你没急吧");
         addItem(ItemRegistry.HURRIED_EGG, "急蛋");
     }

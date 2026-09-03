@@ -8,6 +8,7 @@
   "hurriedness.configuration.section.hurriedness.common.toml.title": "Hurriedness Configs",
   "hurriedness.configuration.title": "Hurriedness Configs",
   "hurriedness.container.hurried_anchor": "Hurried anchor",
+  "hurriedness.item.alien_hand_hurry.outside_range": "You are outside the usable range",
   "item.hurriedness.alien_hand_hurry": "Alien hand",
   "item.hurriedness.alien_hand_not_hurry": "Inverted alien hand",
   "item.hurriedness.hurried_egg": "Hurried egg"

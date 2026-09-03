@@ -18,6 +18,7 @@ public class Registries {
         EntityTypeRegistry.ENTITY_TYPES.register(modBus);
 //        CreativeTabRegistry.CREATIVE_MODE_TABS.register(modBus);
         DataAttachmentRegistry.ATTACHMENT_TYPES.register(modBus);
+        DataComponentRegistry.DATA_COMPONENTS.register(modBus);
     }
 
     @SubscribeEvent

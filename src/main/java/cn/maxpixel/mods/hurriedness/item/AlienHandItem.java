@@ -1,9 +1,12 @@
 package cn.maxpixel.mods.hurriedness.item;
 
 import cn.maxpixel.mods.hurriedness.hvalue.HurriednessValueHelper;
+import cn.maxpixel.mods.hurriedness.registry.DataComponentRegistry;
 import cn.maxpixel.mods.hurriedness.registry.ItemRegistry;
 import cn.maxpixel.mods.hurriedness.util.HurriednessUtil;
+import cn.maxpixel.mods.hurriedness.util.I18nKey;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -21,12 +24,32 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import org.jspecify.annotations.NonNull;
 
 public class AlienHandItem extends Item {
+    public static final String OUTSIDE_RANGE_KEY = I18nKey.item("alien_hand_hurry.outside_range");
+
     public AlienHandItem(Properties properties) {
         super(properties);
     }
 
+    private boolean isBetween(ItemStack is, BlockPos pos) {
+        var data = is.get(DataComponentRegistry.RESTRICTED_IN);
+        if (data == null) return true;
+        int minX = Math.min(data.from().getX(), data.to().getX());
+        int maxX = Math.max(data.from().getX(), data.to().getX());
+        int minY = Math.min(data.from().getY(), data.to().getY());
+        int maxY = Math.max(data.from().getY(), data.to().getY());
+        int minZ = Math.min(data.from().getZ(), data.to().getZ());
+        int maxZ = Math.max(data.from().getZ(), data.to().getZ());
+        return pos.getX() >= minX && pos.getX() <= maxX &&
+                pos.getY() >= minY && pos.getY() <= maxY &&
+                pos.getZ() >= minZ && pos.getZ() <= maxZ;
+    }
+
     @Override
     public @NonNull InteractionResult useOn(UseOnContext context) {
+        if (!isBetween(context.getItemInHand(), context.getClickedPos())) {
+            if (!context.getLevel().isClientSide()) context.getPlayer().sendSystemMessage(Component.translatable(OUTSIDE_RANGE_KEY));
+            return InteractionResult.FAIL;
+        }
         return HurriednessUtil.hurryBlock(context) ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
@@ -53,6 +76,10 @@ public class AlienHandItem extends Item {
     @Override
     public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
         if (player.isShiftKeyDown()) {
+            if (!isBetween(player.getItemInHand(hand), player.blockPosition())) {
+                if (!level.isClientSide()) player.sendSystemMessage(Component.translatable(OUTSIDE_RANGE_KEY));
+                return InteractionResult.FAIL;
+            }
             HurriednessUtil.rangeHurryBlocks(player.blockPosition(), level, player);
             return InteractionResult.SUCCESS;
         }

@@ -8,6 +8,7 @@
   "hurriedness.configuration.section.hurriedness.common.toml.title": "急 配置",
   "hurriedness.configuration.title": "急 配置",
   "hurriedness.container.hurried_anchor": "急锚",
+  "hurriedness.item.alien_hand_hurry.outside_range": "你已超出限制范围，仅在限制范围内可以对方块急",
   "item.hurriedness.alien_hand_hurry": "你已急哭",
   "item.hurriedness.alien_hand_not_hurry": "你没急吧",
   "item.hurriedness.hurried_egg": "急蛋"

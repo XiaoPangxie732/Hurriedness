@@ -14,4 +14,8 @@ public class I18nKey {
     public static String container(String key) {
         return HurriednessMod.MODID + ".container." + key;
     }
+
+    public static String item(String key) {
+        return HurriednessMod.MODID + ".item." + key;
+    }
 }
